@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .search-again {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .search-again a {
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results for "{{ search_query }}"</h1>
+    
+    {% if results %}
+    <ul>
+        {% for result in results %}
+        <li>{{ result[0] }} - {{ result[1] }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+    
+    <div class="search-again">
+        <p><a href="{{ url_for('search_images') }}">Search again</a></p>
+    </div>
+</body>
+</html>
