@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .search-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .search-form input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+        }
+        
+        .search-form input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .search-form input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Images</h1>
+    
+    <div class="search-form">
+        <form action="{{ url_for('search_images') }}" method="POST">
+            <input type="text" name="search_query" placeholder="Enter image name" required>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+</body>
+</html>
