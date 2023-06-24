@@ -1,9 +1,9 @@
-import os
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = '/var/app/current/static/uploads'  # Path to store uploaded files
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
 
 
@@ -17,16 +17,18 @@ def home():
     return render_template('index.html', albums=albums)
 
 
+# Route for creating a new album
 @app.route('/create_album', methods=['GET', 'POST'])
 def create_album():
     if request.method == 'POST':
         album_name = request.form['album_name']
         album_path = os.path.join(app.config['UPLOAD_FOLDER'], album_name)
-        os.makedirs(album_path)
+        os.makedirs(album_path, exist_ok=True)  # Create album directory
         return redirect(url_for('view_album', album_name=album_name))
     return render_template('create_album.html')
 
 
+# Route for viewing an album
 @app.route('/albums/<album_name>')
 def view_album(album_name):
     album_path = os.path.join(app.config['UPLOAD_FOLDER'], album_name)
@@ -39,6 +41,7 @@ def view_album(album_name):
     return render_template('view_album.html', album_name=album_name, images=images)
 
 
+# Route for uploading an image to an album
 @app.route('/albums/<album_name>/upload', methods=['GET', 'POST'])
 def upload_image(album_name):
     album_path = os.path.join(app.config['UPLOAD_FOLDER'], album_name)
@@ -53,6 +56,7 @@ def upload_image(album_name):
     return render_template('upload_image.html', album_name=album_name)
 
 
+# Route for searching images
 @app.route('/search', methods=['GET', 'POST'])
 def search_images():
     if request.method == 'POST':
@@ -69,4 +73,4 @@ def search_images():
 
 
 if __name__ == '__main__':
-    app.run(use_reloader=True,debug=True)
+    app.run()
