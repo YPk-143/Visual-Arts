@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from key import secret_key,salt
 import os
+import shutil
+
 
 app=Flask(__name__)
 app.secret_key=secret_key
@@ -65,7 +67,25 @@ def upload_image(album_name):
             return redirect(url_for('view_album', album_name=album_name))
     return render_template('upload_image.html', album_name=album_name)
 
+# Route for deleting an album
+@app.route('/albums/<album_name>/delete', methods=['POST'])
+def delete_album(album_name):
+    album_path = os.path.join(app.config['UPLOAD_FOLDER'], album_name)
+    if not os.path.exists(album_path):
+        return redirect(url_for('home'))
+    # Delete the album directory and its contents
+    shutil.rmtree(album_path)
+    return redirect(url_for('home'))
 
+# Route for deleting an image from an album
+@app.route('/albums/<album_name>/delete_image/<image_name>', methods=['POST'])
+def delete_image(album_name, image_name):
+    album_path = os.path.join(app.config['UPLOAD_FOLDER'], album_name)
+    image_path = os.path.join(album_path, image_name)
+    if os.path.exists(image_path):
+        os.remove(image_path)
+    return redirect(url_for('view_album', album_name=album_name))
+ 
 # Route for searching images
 @app.route('/search', methods=['GET', 'POST'])
 def search_images():
