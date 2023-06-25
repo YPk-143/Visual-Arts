@@ -1,8 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
+from key import secret_key,salt
 import os
 
-app = Flask(__name__)
+app=Flask(__name__)
+app.secret_key=secret_key
+
+app.config['SESSION_TYPE']='filesystem'
+user=os.environ.get('RDS_USERNAME')
+db=os.environ.get('RDS_DB_NAME')
+password=os.environ.get('RDS_PASSWORD')
+host=os.environ.get('RDS_HOSTNAME')
+port=os.environ.get('RDS_PORT')
+
 app.config['UPLOAD_FOLDER'] = '/var/app/current/static/uploads'  # Path to store uploaded files
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
 
@@ -17,7 +27,7 @@ def home():
     return render_template('index.html', albums=albums)
 
 
-# Route for creating a new album
+# Route for creating a new album 
 @app.route('/create_album', methods=['GET', 'POST'])
 def create_album():
     if request.method == 'POST':
