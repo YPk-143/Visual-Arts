@@ -15,14 +15,8 @@
             background-size: cover;
         }
         
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        
         h1 {
-            text-align: inherit;
+            text-align: center;
         }
         
         ul {
@@ -68,10 +62,25 @@
         .album-form input[type="submit"]:hover {
             background-color: #555;
         }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .album-form input[type="text"] {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <center><h1>Welcome To Visual Arts Collection</h1></center>
+    <h1>Welcome To Visual Arts Collection</h1>
 
     <div class="search">
         <h3>Search Images</h3>
@@ -95,5 +104,6 @@
             <input type="text" name="album_name" placeholder="Enter album name" required>
             <input type="submit" value="Create">
         </form>
+    </div>
 </body>
 </html>
